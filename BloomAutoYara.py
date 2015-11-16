@@ -29,7 +29,7 @@ class BloomAutoYara:
 
   def extractlines(self,filename,min_len=4):
     chars = r"A-Za-z0-9/\-:.,_$%'()[\]<> "
-    shortest_run = 4
+    shortest_run = min_len
     regexp = '[%s]{%d,}' % (chars, shortest_run)
     pattern = re.compile(regexp)
     fp = open(filename,"rb")
@@ -59,9 +59,9 @@ class BloomAutoYara:
     print "creating bloom filter done. Total files = %d (Total entries = %d). Overwriting to bloom filter output file %s"%(total,len(self.bf),self.filterfile)
     self.save_filter()
     
-  def find_file_topn(self,filename,topn=10):
+  def find_file_topn(self,filename,topn=10,minlen=4):
     tmp = []
-    lines = self.extractlines(filename)
+    lines = self.extractlines(filename,minlen)
     print "total unique strings in file %s = %d"%(filename,len(lines))
     for line in lines:
       if self.search_string(line) == False:
@@ -72,12 +72,12 @@ class BloomAutoYara:
     tmp.reverse()
     return tmp
     
-  def find_dir_topn(self,dirname,topn=10):
+  def find_dir_topn(self,dirname,topn=10,minlen=4):
     tmplist = []
     for (dir, _, files) in os.walk(dirname):
       for f in files:
         path = os.path.join(dir, f)
-        lines = self.extractlines(path)
+        lines = self.extractlines(path,minlen)
         for line in lines:
           if self.search_string(line) == False:
             tmplist.append(line) 
@@ -100,7 +100,10 @@ class BloomAutoYara:
       tmp += "\n"
     
     tmp += "condition:\n"
-    tmp += str(int(len(list)*threshold))
+    if int(len(list)*threshold) == 0:
+      tmp += str(1)
+    else:
+      tmp += str(int(len(list)*threshold))
     tmp += " of ("
     for i in xrange(0,len(list)):
       tmp += "$str"+ str(i)

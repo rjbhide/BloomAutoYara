@@ -40,9 +40,12 @@ optional arguments:
                         matched
   -m MAX, --max MAX     maximum common strings to be considered for signature
                         generation
+  -l LENGTHMIN, --lengthmin LENGTHMIN
+                        minimum length of string
   -e EXTENSIONS, --extensions EXTENSIONS
                         file with given extensions will be used for creating
                         filter/signature
+
   
   e.g. 
   build bloom filter
@@ -50,7 +53,7 @@ optional arguments:
   This will generate byfilter.bf file
   
   gen yara rule
-  python run.py -n myfilter.bf -s c:\malwares\ -m 10 -t 0.9 -o myrule
+  python run.py -n myfilter.bf -s c:\malwares -m 10 -t 0.9 -l 4 -o myrule
   This will generate myrule.yara file
 
 ```

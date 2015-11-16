@@ -68,7 +68,9 @@ class BloomAutoYara:
         tmp.append(line)
     tmp.sort(key=len)
     print "total strings which can be used for signature = %d"%len(tmp)
-    return tmp[-topn:]
+    tmp = tmp[-topn:]
+    tmp.reverse()
+    return tmp
     
   def find_dir_topn(self,dirname,topn=10):
     tmplist = []

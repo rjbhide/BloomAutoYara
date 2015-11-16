@@ -14,11 +14,11 @@ def run(args):
   else:
     list = []
     if os.path.isdir(args.source) == True:
-      topn = filter.find_dir_topn(args.source,args.max)
+      topn = filter.find_dir_topn(args.source,args.max,args.lengthmin)
       for val,occ in topn:
         list.append(val)
     else:
-      list = filter.find_file_topn(args.source,args.max)
+      list = filter.find_file_topn(args.source,args.max,args.lengthmin)
     
     filter.list_to_rule(list,args.output,args.threshold)
 
@@ -30,6 +30,7 @@ if __name__ == '__main__':
   parser.add_argument("-s", "--source", required=True, help="source file/folder to process")
   parser.add_argument("-t", "--threshold", type=float,default=0.5, help="threshold for percentage of signature strings to be matched")
   parser.add_argument("-m", "--max", type=int,default=15, help="maximum common strings to be considered for signature generation")
+  parser.add_argument("-l", "--lengthmin", type=int,default=4,help="minimum length of string")
   parser.add_argument("-e", "--extensions", default=[],help="file with given extensions will be used for creating filter/signature")
   args = parser.parse_args()
   

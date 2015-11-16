@@ -20,6 +20,8 @@ get list of topn most common strings from all files in directory 'dirname' where
 - list_to_rule(list,rulename,threshold=0.5) :- 
 generates 'rulename.yara' file using strings from list. Number of strings matches before rule is triggered is decided by threshold.
 
+- uploaded baseclean.bf file which contains around 16 million unique strings from 50k clean exe,dll,ocx,sys files
+
 - created a simple program run.py which can be used for building bloom filter from clean files & also for creating yara signatures
 ```
 usage: run.py [-h] [-n NAME] [-o OUTPUT] [-b] -s SOURCE [-t THRESHOLD]

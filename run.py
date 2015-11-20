@@ -25,7 +25,7 @@ def run(args):
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument("-n", "--name", default="test.bf",help="name of the bloom filter file e.g. test.bf")
+  parser.add_argument("-n", "--name", default="baseclean.bf",help="name of the bloom filter file e.g. test.bf")
   parser.add_argument("-o", "--output",default="testrule",help="name of the yara rule")
   parser.add_argument("-b", "--build", action="store_true", help="build signature set")
   parser.add_argument("-s", "--source", required=True, help="source file/folder to process")

@@ -83,14 +83,15 @@ class BloomAutoYara:
             tmplist.append(line) 
     
     counts = Counter(list(tmplist))
-    return counts.most_common(topn)
+    return counts.most_common(topn),len(files)
 
   def escapechars(self,str):
     for c in "\/.^$*+-?()[]{}|":
       str = str.replace(c,"\\"+c)
     return str
     
-  def list_to_rule(self,list,rulename,threshold=0.5):
+  def list_to_rule(self,list,rulename,threshold=50):
+    rulename = rulename.split(".")[0]
     tmp = "rule " + rulename + "{\n"
     tmp += " strings:\n"
     
@@ -103,7 +104,7 @@ class BloomAutoYara:
     if int(len(list)*threshold) == 0:
       tmp += str(1)
     else:
-      tmp += str(int(len(list)*threshold))
+      tmp += str(int(len(list)*threshold/100))
     tmp += " of ("
     for i in xrange(0,len(list)):
       tmp += "$str"+ str(i)
